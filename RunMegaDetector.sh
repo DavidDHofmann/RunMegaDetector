@@ -30,7 +30,7 @@ for subdir in $dirs
 do
 
   # Check if an output file already exists
-  output=$subdir"Output_"$(basename $subdir)".json"
+  output=$subdir"Detections.json"
   if test -f "$output"; then
 	  echo "$output exists. Skipping to next folder..."
   else
