@@ -3,7 +3,6 @@
 #### Run Megadetector Batch on a Directory
 ################################################################################
 # Author: David Hofmann
-# Author: David Hofmann
 # $1 = folder where detections should run
 # $2 = megadetector directory
 # $3 = megadetector model
@@ -18,10 +17,10 @@ dirs=$(ls -d */)
 
 # Activate the appropriate megadetector environment and load the required files
 source $4/etc/profile.d/conda.sh
-conda activate cameratraps-detector
+conda activate megadetector
 
 # Export relevant paths
-export PYTHONPATH="$PYTHONPATH:$2/cameratraps:$2/ai4eutils:$2/yolov5"
+export PYTHONPATH="$PYTHONPATH:$2/MegaDetector:$2/yolov5"
 
 # Loop through the directories and run the megadetector if necessary (handles whitespace)
 OIFS="$IFS"
@@ -39,9 +38,8 @@ do
 	  # Check if a checkpoint already exists
 	  checkpoint=$(ls $subdir | grep "checkpoint")
 	  if test -f $subdir$checkpoint; then
-		  echo "Continue from checkpoint $subdir$checkpoint"
-      python $2/cameratraps/detection/run_detector_batch.py $2/$3 $subdir $output --output_relative_filenames --recursive --threshold 0.2 --checkpoint_frequency $5 --resume_from_checkpoint $subdir$checkpoint
-      rm $subdir$checkpoint
+		  echo "Continue from checkpoint"
+      python $2/cameratraps/detection/run_detector_batch.py $2/$3 $subdir $output --output_relative_filenames --recursive --threshold 0.2 --checkpoint_frequency $5 --resume_from_checkpoint "auto"
 	  else
 		  echo "No checkpoint found. Initiate new detection batch"
       python $2/cameratraps/detection/run_detector_batch.py $2/$3 $subdir $output --output_relative_filenames --recursive --threshold 0.2 --checkpoint_frequency $5
