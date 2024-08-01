@@ -43,10 +43,10 @@ for /D %%D in (*) do (
 		:found_checkpoint
 		if !found! equ 1 (
 			echo Continue from checkpoint.
-			python %2\MegaDetector\megadetector\detection\run_detector_batch.py %3 %1 !output! --output_relative_filenames --recursive --threshold 0.2 --checkpoint_frequency %4 --resume_from_checkpoint "auto"
+			python %2\MegaDetector\megadetector\detection\run_detector_batch.py %3 %1 !output! --output_relative_filenames --recursive --quiet --threshold 0.2 --checkpoint_frequency %4 --resume_from_checkpoint "auto"
 		) else (
 			echo No checkpoint found. Initiate new detection batch
-			python %2\MegaDetector\megadetector\detection\run_detector_batch.py %3 %1 !output! --output_relative_filenames --recursive --threshold 0.2 --checkpoint_frequency %4
+			python %2\MegaDetector\megadetector\detection\run_detector_batch.py %3 %1 !output! --output_relative_filenames --recursive --quiet --threshold 0.2 --checkpoint_frequency %4
 		)
 		
 	)

@@ -39,10 +39,10 @@ do
 	  checkpoint=$(ls $subdir | grep "checkpoint")
 	  if test -f $subdir$checkpoint; then
 		  echo "Continue from checkpoint"
-      python $2/MegaDetector/megadetector/detection/run_detector_batch.py $3 $subdir $output --output_relative_filenames --recursive --threshold 0.2 --checkpoint_frequency $5 --resume_from_checkpoint "auto"
+      python $2/MegaDetector/megadetector/detection/run_detector_batch.py $3 $subdir $output --output_relative_filenames --recursive --quiet --threshold 0.2 --checkpoint_frequency $5 --resume_from_checkpoint "auto"
 	  else
 		  echo "No checkpoint found. Initiate new detection batch"
-      python $2/MegaDetector/megadetector/detection/run_detector_batch.py $3 $subdir $output --output_relative_filenames --recursive --threshold 0.2 --checkpoint_frequency $5
+      python $2/MegaDetector/megadetector/detection/run_detector_batch.py $3 $subdir $output --output_relative_filenames --recursive --quiet --threshold 0.2 --checkpoint_frequency $5
     fi
   fi
 done
