@@ -19,10 +19,11 @@ REM Export utilities
 set PYTHONPATH=%2\MegaDetector;%2\yolov5
 
 REM Loop through sub-directories
-for /D %%D in (*) do (
+for /D %%D in (%1\*) do (
 
 	REM Define the filename of the output file
-	set "output=%1\%%D\Detections.json"
+	set "output=%%D\Detections.json"
+	set "subdir=%%D"
 	
 	REM If output file already exists, skip to the next folder
 	if exist !output! (
@@ -33,7 +34,7 @@ for /D %%D in (*) do (
 		echo !output! does not exist
 
 		REM Check if there is a checkpoint
-		for %%F in ("%1\%%D\*checkpoint_*.json") do (
+		for %%F in ("!subdir!\*checkpoint_*.json") do (
 			if exist %%F (
 				echo %%F
 				set "found=1"
@@ -43,10 +44,10 @@ for /D %%D in (*) do (
 		:found_checkpoint
 		if !found! equ 1 (
 			echo Continue from checkpoint.
-			python %2\MegaDetector\megadetector\detection\run_detector_batch.py %3 %1 !output! --output_relative_filenames --recursive --quiet --threshold 0.2 --checkpoint_frequency %4 --resume_from_checkpoint "auto"
+			python %2\MegaDetector\megadetector\detection\run_detector_batch.py %3 !subdir! !output! --output_relative_filenames --recursive --quiet --threshold 0.2 --checkpoint_frequency %4 --resume_from_checkpoint "auto"
 		) else (
 			echo No checkpoint found. Initiate new detection batch
-			python %2\MegaDetector\megadetector\detection\run_detector_batch.py %3 %1 !output! --output_relative_filenames --recursive --quiet --threshold 0.2 --checkpoint_frequency %4
+			python %2\MegaDetector\megadetector\detection\run_detector_batch.py %3 !subdir! !output! --output_relative_filenames --recursive --quiet --threshold 0.2 --checkpoint_frequency %4
 		)
 		
 	)
